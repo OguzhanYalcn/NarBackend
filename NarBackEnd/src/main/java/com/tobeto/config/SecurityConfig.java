@@ -9,13 +9,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-//import com.tobeto.filter.JwtAuthorizationFilter;
+import com.tobeto.filter.JwtAuthorizationFilter;
 
 @Configuration
 public class SecurityConfig {
 	@Autowired
-//	private JwtAuthorizationFilter jwtAuthorizationFilter;
+	private JwtAuthorizationFilter jwtAuthorizationFilter;
 
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -27,8 +28,7 @@ public class SecurityConfig {
 				.anyRequest().authenticated()
 				)
 		     .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//		     .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-		     ;
+		     .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 		// @formatter:on
 
 		return http.build();
